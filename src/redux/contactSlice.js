@@ -3,7 +3,7 @@ import {
   addContactThunk,
   deleteContactThunk,
   fetchContactThunk,
-} from "./operations";
+} from "./contactsOps";
 import { selectFilter } from "./filterSlice";
 const initialState = {
   contacts: [],
@@ -39,7 +39,7 @@ const slice = createSlice({
           deleteContactThunk.pending,
           addContactThunk.pending
         ),
-        (state, action) => {
+        (state) => {
           state.isLoading = true;
         }
       )
@@ -49,7 +49,7 @@ const slice = createSlice({
           deleteContactThunk.fulfilled,
           addContactThunk.fulfilled
         ),
-        (state, action) => {
+        (state) => {
           state.isLoading = false;
         }
       )

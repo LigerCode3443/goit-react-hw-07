@@ -7,7 +7,7 @@ import {
   selectIsLoading,
 } from "./redux/contactSlice";
 import { selectFilter } from "./redux/filterSlice";
-import { fetchContactThunk } from "./redux/operations";
+import { fetchContactThunk } from "./redux/contactsOps";
 import {
   ContactForm,
   ContactList,
