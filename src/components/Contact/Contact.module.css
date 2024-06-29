@@ -30,3 +30,18 @@
     border: 1px solid black;
   }
 }
+.btn_rename {
+  position: absolute;
+  border-radius: 5px;
+  padding: 2px;
+  border: 1px solid gold;
+  bottom: 10%;
+  right: 100px;
+  background-color: green;
+  color: white;
+  &:hover {
+    color: black;
+    background-color: gold;
+    border: 1px solid black;
+  }
+}

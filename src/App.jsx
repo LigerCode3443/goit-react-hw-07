@@ -1,31 +1,49 @@
-import { ContactForm, ContactList, SearchBox } from "./components";
-
-import { useSelector } from "react-redux";
-import { selectContacts } from "./redux/contactSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import {
+  selectContacts,
+  selectFilteredMeme,
+  selectIsError,
+  selectIsLoading,
+} from "./redux/contactSlice";
 import { selectFilter } from "./redux/filterSlice";
+import { fetchContactThunk } from "./redux/operations";
+import {
+  ContactForm,
+  ContactList,
+  Container,
+  Loader,
+  SearchBox,
+} from "./components";
 
 function App() {
   const contacts = useSelector(selectContacts);
-  const filterContacts = useSelector(selectFilter);
+  const filterContacts = useSelector(selectFilteredMeme);
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
+  const dispatch = useDispatch();
 
-  const searchContact = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filterContacts?.toLowerCase())
-  );
+  useEffect(() => {
+    dispatch(fetchContactThunk());
+  }, [dispatch]);
 
   return (
-    <>
+    <Container>
       <ContactForm />
       <SearchBox />
-
-      {contacts.length ? (
-        <ContactList contacts={searchContact} />
-      ) : (
+      {isLoading && <Loader />}
+      {contacts.length > 0 && !isError && (
+        <ContactList contacts={filterContacts} />
+      )}
+      {!contacts.length && !isLoading && !isError && (
         <span className="title">No contact </span>
       )}
-      {searchContact.length === 0 && contacts.length !== 0 && (
+      {contacts.length === 0 && contacts.length !== 0 && (
         <span className="title">Contact is not defiant</span>
       )}
-    </>
+
+      {isError && <span className="title">Error: {isError}</span>}
+    </Container>
   );
 }
 

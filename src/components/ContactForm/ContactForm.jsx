@@ -3,8 +3,8 @@ import { useId } from "react";
 import * as Yup from "yup";
 import s from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { nanoid } from "@reduxjs/toolkit";
-import { addContacts } from "../../redux/contactSlice";
+
+import { addContactThunk } from "../../redux/operations";
 
 const contactsSchema = Yup.object().shape({
   name: Yup.string()
@@ -21,23 +21,25 @@ const initialValues = {
   name: "",
   number: "",
 };
+
 export const ContactForm = () => {
   const contactId = useId();
   const phoneId = useId();
   const dispatch = useDispatch();
   const handleSubmit = (values, actions) => {
-    const action = addContacts({
+    const action = addContactThunk({
       name: values.name,
       number: values.number,
-      id: nanoid(),
     });
 
     dispatch(action);
+
     actions.resetForm();
   };
 
   return (
     <Formik
+      enableReinitialize
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={contactsSchema}
